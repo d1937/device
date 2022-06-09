@@ -209,6 +209,7 @@ func GetIndexInterface(index int) (*NetInfo, error) {
 		return nil, err
 	}
 	for _, v := range devices {
+		fmt.Println(v.Name)
 		if v.Index == index {
 			return v, err
 		}
