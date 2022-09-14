@@ -137,27 +137,24 @@ func GetInterfaces() (map[string]*NetInfo, error) {
 		if err != nil {
 			continue
 		}
-		if len(address) == 2 {
-			for _, addr := range address {
-				ip, _, err := net.ParseCIDR(addr.String())
-				if err != nil {
-					return nil, err
-				}
-				if ipaddr := net.ParseIP(ip.String()); ipaddr != nil {
-					if ipaddr.To4() != nil {
-						if ipaddr.To4().String() == "127.0.0.1" {
-							continue
-						}
-						data[ip.String()] = &NetInfo{
-							Index:        inter.Index,
-							Name:         inter.Name,
-							Ip:           ip.To4(),
-							HardwareAddr: inter.HardwareAddr,
-						}
+		for _, addr := range address {
+			ip, _, err := net.ParseCIDR(addr.String())
+			if err != nil {
+				return nil, err
+			}
+			if ipaddr := net.ParseIP(ip.String()); ipaddr != nil {
+				if ipaddr.To4() != nil {
+					if ipaddr.To4().String() == "127.0.0.1" {
+						continue
+					}
+					data[ip.String()] = &NetInfo{
+						Index:        inter.Index,
+						Name:         inter.Name,
+						Ip:           ip.To4(),
+						HardwareAddr: inter.HardwareAddr,
 					}
 				}
 			}
-
 		}
 
 	}

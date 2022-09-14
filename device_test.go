@@ -48,3 +48,17 @@ func Test_getRawPort(t *testing.T) {
 	}
 	t.Log(port)
 }
+
+func TestPrintInterfaces(t *testing.T) {
+	PrintInterfaces()
+}
+
+func TestGetInter(t *testing.T) {
+	inters, err := GetInter()
+	if err != nil {
+		t.Fatal(err)
+	}
+	for _, ins := range inters {
+		fmt.Println(ins)
+	}
+}
