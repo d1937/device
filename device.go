@@ -160,21 +160,20 @@ func GetInterfaces() (map[string]*NetInfo, error) {
 	}
 
 	for _, device := range devices {
-		if len(device.Addresses) == 2 {
-			//fmt.Println(device.Addresses)
-			//netaddr := device.Addresses[0]
-			for _, address := range device.Addresses {
-				if address.IP.To4() != nil {
-					ipaddr := address.IP.String()
-					if v, ok := data[ipaddr]; ok {
-						v.DeviceName = device.Name
-						v.Description = device.Description
-						data[ipaddr] = v
-					}
+
+		//fmt.Println(device.Addresses)
+		//netaddr := device.Addresses[0]
+		for _, address := range device.Addresses {
+			if address.IP.To4() != nil {
+				ipaddr := address.IP.String()
+				if v, ok := data[ipaddr]; ok {
+					v.DeviceName = device.Name
+					v.Description = device.Description
+					data[ipaddr] = v
 				}
 			}
-
 		}
+
 	}
 
 	return data, nil
@@ -299,7 +298,11 @@ func AutoGetDevice() (*EthTable, error) {
 	if err != nil {
 		return nil, errors.Wrapf(err, "获取网卡列表失败")
 	}
+	for _, d := range devices {
+		fmt.Println(d.Ip, d.DeviceName)
+	}
 	var device *NetInfo
+	fmt.Println(localIp)
 	if d, ok := devices[localIp.String()]; ok {
 		device = d
 	} else {
